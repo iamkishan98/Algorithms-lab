@@ -1,20 +1,21 @@
 #include<bits/stdc++.h>
 using namespace std;
-void merge(int arr[][2],int l,int mid,int h){
+void merge(double arr[][3],int l,int mid,int h){
     int n1= mid - l +1;
     int n2 = h-mid ;
-    int arr1[n1][2],arr2[n2][2];
+    double arr1[n1][3],arr2[n2][3];
     int i,j,k;
     for(i=0;i<n1;i++){
-        for ( j = 0; j < 2; j++)
+        for ( j = 0; j < 3; j++)
         {
           
             arr1[i][j] = arr[l+i][j];
         }
         
     }
+    
     for(i=0;i<n2;i++){
-        for(j=0;j<2;j++){
+        for(j=0;j<3;j++){
             arr2[i][j] = arr[mid + i + 1][j];
         }
     }
@@ -26,16 +27,16 @@ void merge(int arr[][2],int l,int mid,int h){
         
      
         
-        if(arr1[i][1]  < arr2[j][1]){
+        if(arr1[i][2]  > arr2[j][2]){
             arr[k][0] = arr1[i][0];
             arr[k][1] = arr1[i][1];
-           // arr[k][2] = arr1[i][2]; 
+           arr[k][2] = arr1[i][2]; 
             i ++;
         }
         else{
              arr[k][0] = arr2[j][0];
             arr[k][1] = arr2[j][1];
-            //arr[k][2] = arr2[j][2]; 
+            arr[k][2] = arr2[j][2]; 
             j ++;
 
         }
@@ -44,16 +45,16 @@ void merge(int arr[][2],int l,int mid,int h){
     while(i<n1){
         arr[k][0] = arr1[i][0];
             arr[k][1] = arr1[i][1];
-           // arr[k][2] = arr1[i][2]; 
+           arr[k][2] = arr1[i][2]; 
             i ++;
              k++;
     }
     while (j<n2)
     {
-        /* code */
+        
          arr[k][0] = arr2[j][0];
             arr[k][1] = arr2[j][1];
-            //arr[k][2] = arr2[j][2]; 
+            arr[k][2] = arr2[j][2]; 
             j ++;
              k++ ;
 
@@ -63,7 +64,7 @@ void merge(int arr[][2],int l,int mid,int h){
 
 }
 
-void mergesort(int arr[][2] ,int l,int h){
+void mergesort(double arr[][3] ,int l,int h){
     int mid;
     if(l<h){
         mid = l +(h-l)/2;
@@ -73,39 +74,48 @@ void mergesort(int arr[][2] ,int l,int h){
     }
 }
 int main(){
-    int n,i,j,k;
+    int n;
     cin>>n;
-    int arr[n][2];
+    double capacity;
+    cin>>capacity;
+
+    int i,j;
+    double arr[n][3];
     for(i=0;i<n;i++){
-        for(j=0;j<2;j++){
+        for(j=0;j< 2;j++){
             cin>>arr[i][j];
         }
     }
-    mergesort(arr,0,n-1);
-    cout<<"After sorting by finish time ="<<endl;
+    
+    cout<<"Calculating profit/weight ratio"<<endl;
     for(i=0;i<n;i++){
-        for(j=0;j<2;j++){
+        arr[i][2] = arr[i][1] / arr[i][0];
+    }
+    
+    mergesort(arr,0,n-1);
+    cout<<"After sorting ="<<endl;
+    for(i=0;i<n;i++){
+        for(j=0;j<3;j++){
             cout<<arr[i][j]<<" ";
         }
-        cout<<endl;
-    }
-    int count=0,start=0,end=0;
-    int op[n];
-    for(i=0;i<n;i++){
-        if(arr[i][0] >= end && arr[i][1] > 0){
-            op[count] = i + 1;
-            count ++;
-            start = arr[i][0];
-            end = arr[i][1];
-        }
-    }
-    cout<<"Job sequence of scheduling = "<<endl;
-    for(i=0;i<count;i++){
-        cout<<op[i]<<" "; 
     }
     cout<<endl;
-    cout<<"Maximum no of jobs = "<<count;
+    double profit=0,cur=0;
+    for(i=0;i<n;i++){
+        if(cur + arr[i][0] <= capacity){
+            cur = cur + arr[i][0];
+            profit = profit + arr[i][1];
+            cout<<"Weight = "<<cur<<" Profit = "<<profit<<endl;
+        }
+        else{
+            
+            profit = profit + (arr[i][1] * ((capacity - cur)/arr[i][0]));
+           // cout<<profit<<endl;
+            break; 
+        }
+    }
 
-
+    cout<<"Maximum profit = "<<profit;
+    cout<<endl;
     return 0;
 }
