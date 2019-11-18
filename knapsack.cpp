@@ -13,7 +13,7 @@ void merge(double arr[][3],int l,int mid,int h){
         }
         
     }
-    
+
     for(i=0;i<n2;i++){
         for(j=0;j<3;j++){
             arr2[i][j] = arr[mid + i + 1][j];
@@ -110,7 +110,8 @@ int main(){
         else{
             
             profit = profit + (arr[i][1] * ((capacity - cur)/arr[i][0]));
-           // cout<<profit<<endl;
+            cout<<"Weight = "<<(capacity - cur)/arr[i][0]<<" Profit = "<<profit<<endl;
+           
             break; 
         }
     }

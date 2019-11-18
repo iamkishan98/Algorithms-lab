@@ -89,13 +89,13 @@ int main(){
         }
         cout<<endl;
     }
-    int count=0,start=0,end=0;
+    int count=0,end=0;
     int op[n];
     for(i=0;i<n;i++){
         if(arr[i][0] >= end && arr[i][1] > 0){
             op[count] = i + 1;
             count ++;
-            start = arr[i][0];
+        
             end = arr[i][1];
         }
     }
